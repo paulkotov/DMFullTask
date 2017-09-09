@@ -24,7 +24,7 @@ function fetchData(query) {
 // }
 
 async function socialAuth(social) {
-  return fetch('localhost:6000/auth/' + social, {
+  return fetch('paulkotov.localtest.me:5000/auth/' + social, {
     method: 'GET',
     headers: {
       'Content-type': 'plain/text'

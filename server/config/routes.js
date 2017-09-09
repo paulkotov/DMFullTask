@@ -3,9 +3,8 @@ module.exports = function (app, passport, auth) {
 
   //User controller
   var users = require('../app/controllers/users');
-  var mustBeAuthenticated = (res, req, next) => {
-    req.isAuthenticated() ? next() : res.redirect('/login');
-  }
+  var requiresLogin = require('./middlewares/authorization').requiresLogin;
+
   app.get('/login', users.login);
   app.get('/signup', users.signup);
   app.get('/logout', users.logout);
@@ -14,17 +13,19 @@ module.exports = function (app, passport, auth) {
   app.get('/users/:userId', users.show);
   app.get('/auth/facebook', passport.authenticate('facebook', { scope: [ 'email', 'user_about_me'], failureRedirect: '/login' }), users.signin);
   app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), users.authCallback);
-  app.get('/auth/github', passport.authenticate('github', { failureRedirect: '/login' }), users.signin);
-  app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), users.authCallback);
+  // app.get('/auth/github', passport.authenticate('github', { failureRedirect: '/login' }), users.signin);
+  // app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), users.authCallback);
   app.get('/auth/twitter', passport.authenticate('twitter', { failureRedirect: '/login' }), users.signin);
   app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), users.authCallback);
   app.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email'] }));
   app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login', successRedirect: '/' })); 
   
-  app.get('/user/pokemon', mustBeAuthenticated, user.showPokemons);
-  app.all('/user/pokemons', mustBeAuthenticated);
+  app.get('/user/pokemons', requiresLogin, users.showPokemons);
+  app.post('/user/pokemon', requiresLogin, users.savePokemon);
 
-  // this is home page
-  // var home = require('../app/controllers/home');
-  // app.get('/', home.index);
+  //this is home page
+  var home = require('../app/controllers/home');
+  app.get('/', function (req, res){
+    res.send('<h3>Service not found</h3>');
+  });
 }

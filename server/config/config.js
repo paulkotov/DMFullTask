@@ -5,57 +5,57 @@ var path = require('path')
 
 module.exports = {
   development: {
-    db: 'mongodb://localhost/pokemons',
+    db: 'mongodb://127.0.0.1/pokemons',
     root: rootPath,
     app: {
-      name: 'Nodejs Passport'
+      name: 'Pokemons'
     },
     facebook: {
       clientID: "APP_ID",
       clientSecret: "APP_SECRET",
-      callbackURL: "http://localhost:6000/auth/facebook/callback"
+      callbackURL: "http://127.0.0.1:5000/auth/facebook/callback"
     },
     twitter: {
       clientID: "CONSUMER_KEY",
       clientSecret: "CONSUMER_SECRET",
-      callbackURL: "http://localhost:6000/auth/twitter/callback"
+      callbackURL: "http://paulkotov.localtest.me:5000/auth/twitter/callback"
     },
     github: {
       clientID: 'APP_ID',
       clientSecret: 'APP_SECRET',
-      callbackURL: 'http://localhost:6000/auth/github/callback'
+      callbackURL: 'http://paulkotov.localtest.me:5000/auth/github/callback'
     },
     google: {
-      clientID: "APP_ID",
-      clientSecret: "APP_SECRET",
-      callbackURL: "http://localhost:6000/auth/google/callback"
+      clientID: "254861698001-veanvbofcirtvsbiesuk3ujt1ldvh1bq.apps.googleusercontent.com",
+      clientSecret: "HQyY_VxvMeSO0i2670eGf8j-",
+      callbackURL: "http://paulkotov.localtest.me:5000/auth/google/callback"
     },
   },
   test: {
-    db: 'mongodb://localhost:6000/pokemons_test',
+    db: 'mongodb://127.0.0.1:5000/pokemons_test',
     root: rootPath,
     app: {
-      name: 'Nodejs Express Mongoose'
+      name: 'Pokemons'
     },
     facebook: {
       clientID: "APP_ID",
       clientSecret: "APP_SECRET",
-      callbackURL: "http://localhost:6000/auth/facebook/callback"
+      callbackURL: "http://paulkotov.localtest.me:5000/auth/facebook/callback"
     },
     twitter: {
       clientID: "CONSUMER_KEY",
       clientSecret: "CONSUMER_SECRET",
-      callbackURL: "http://localhost:6000/auth/twitter/callback"
+      callbackURL: "http://paulkotov.localtest.me:5000/auth/twitter/callback"
     },
     github: {
       clientID: 'APP_ID',
       clientSecret: 'APP_SECRET',
-      callbackURL: 'http://localhost:6000/auth/github/callback'
+      callbackURL: 'http://paulkotov.localtest.me:5000/auth/github/callback'
     },
     google: {
-      clientID: "APP_ID",
-      clientSecret: "APP_SECRET",
-      callbackURL: "http://localhost:6000/auth/google/callback"
+      clientID: "254861698001-veanvbofcirtvsbiesuk3ujt1ldvh1bq.apps.googleusercontent.com",
+      clientSecret: "HQyY_VxvMeSO0i2670eGf8j-",
+      callbackURL: "http://paulkotov.localtest.me:5000/auth/google/callback"
     }
   },
   production: {}

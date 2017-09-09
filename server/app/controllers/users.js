@@ -1,12 +1,9 @@
-
-/**
- * Module dependencies.
- */
-
 var mongoose = require('mongoose')
   , User = mongoose.model('User');
 
-exports.signin = function (req, res) {}
+exports.signin = function (req, res) {
+  res.redirect('/');
+}
 
 /**
  * Auth callback
@@ -100,7 +97,6 @@ exports.show = function (req, res) {
     });  
 }
 
-
 /**
  * Find user by id
  */
@@ -119,6 +115,13 @@ exports.user = function (req, res, next, id) {
 /**
  * Save user pokemon
  */
-exports.save.Pokemon = function (req, res, next) {
+exports.savePokemon = function (req, res, next) {
+  
+}
+
+/**
+ * Show user pokemons
+ */
+exports.showPokemons = function (req, res, next) {
   
 }
