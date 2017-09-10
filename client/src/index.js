@@ -10,7 +10,7 @@ import reducer from './reducers';
 
 const store = createStore(reducer);
 
-render(
+const main = () => (
   <Provider store={store}>
     <BrowserRouter>
     <Switch>
@@ -18,6 +18,10 @@ render(
       <Route path="/login" component={Auth} ></Route>
     </Switch>
     </BrowserRouter>  
-  </Provider>,
+  </Provider>
+);
+
+render(
+main,
   document.getElementById('root')
 );
