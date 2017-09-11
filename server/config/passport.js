@@ -5,6 +5,8 @@ var mongoose = require('mongoose')
   , FacebookStrategy = require('passport-facebook').Strategy
   , GitHubStrategy = require('passport-github').Strategy
   , GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
+  , AuthVKStrategy = require('passport-vkontakte').Strategy
+
   , User = mongoose.model('User')
 
 
@@ -158,4 +160,18 @@ passport.use(new GoogleStrategy({
       })
     }
   ));
+
+passport.use('vk', new AuthVKStrategy({
+    clientID: config.vk.clientID,
+    clientSecret: config.vk.clientSecret,
+    callbackURL: config.vk.callbackURL
+},
+  function (accessToken, refreshToken, profile, done) {
+      return done(null, {
+          username: profile.displayName,
+          photoUrl: profile.photos[0].value,
+          profileUrl: profile.profileUrl
+      });
+  }
+)); 
 }
