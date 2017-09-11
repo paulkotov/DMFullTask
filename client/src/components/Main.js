@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import PokeItem from './PokeItem';
-import FilterPanel from './Filterpanel';
+import FilterPanel from './FilterPanel';
 import styled from 'styled-components';
 
 const TableTitle = styled.div`

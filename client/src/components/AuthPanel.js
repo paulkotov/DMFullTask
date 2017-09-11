@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
-import { isObjEmpty, socialAuth } from '../libs/api';
+import { isObjEmpty } from '../libs/api';
 
 const SocialContainer = styled.div`
   display: inline-flex;
@@ -17,27 +18,33 @@ class AuthPanel extends Component {
   constructor(){
     super();
     this.state = {
-      isAuth: false
+      isAuth: false,
+      profile: {}
     };
+  }
+
+  onAddHandler = () => {
+    fetch(' http://paulkotov.localtest.me:5000/' ,{
+      mode: 'cors',
+      method:  'GET',
+      headers: {
+        'Content-type' : 'plain/text'
+      }
+    }).then(r => r.json())
+      .then( (result) => {
+        this.setState(
+          { count: result.count, 
+            data: result.results }
+        );
+        this.props.login(this.state.profile);  
+      }).catch(alert);   
   }
 
   VKRender(){
     return(
       <span>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-          <path d="M48.875,0C21.883,0,0,21.882,0,48.875S21.883,97.75,48.875,97.75S97.75,75.868,97.75,48.875S75.867,0,48.875,0z
-		 M73.667,54.161c2.278,2.225,4.688,4.319,6.733,6.774c0.906,1.086,1.76,2.209,2.41,3.472c0.928,1.801,0.09,3.776-1.522,3.883
-		l-10.013-0.002c-2.586,0.214-4.644-0.829-6.379-2.597c-1.385-1.409-2.67-2.914-4.004-4.371c-0.545-0.598-1.119-1.161-1.803-1.604
-		c-1.365-0.888-2.551-0.616-3.333,0.81c-0.797,1.451-0.979,3.059-1.055,4.674c-0.109,2.361-0.821,2.978-3.19,3.089
-		c-5.062,0.237-9.865-0.531-14.329-3.083c-3.938-2.251-6.986-5.428-9.642-9.025c-5.172-7.012-9.133-14.708-12.692-22.625
-		c-0.801-1.783-0.215-2.737,1.752-2.774c3.268-0.063,6.536-0.055,9.804-0.003c1.33,0.021,2.21,0.782,2.721,2.037
-		c1.766,4.345,3.931,8.479,6.644,12.313c0.723,1.021,1.461,2.039,2.512,2.76c1.16,0.796,2.044,0.533,2.591-0.762
-		c0.35-0.823,0.501-1.703,0.577-2.585c0.26-3.021,0.291-6.041-0.159-9.05c-0.28-1.883-1.339-3.099-3.216-3.455
-		c-0.956-0.181-0.816-0.535-0.351-1.081c0.807-0.944,1.563-1.528,3.074-1.528l11.313-0.002c1.783,0.35,2.183,1.15,2.425,2.946
-		l0.01,12.572c-0.021,0.695,0.349,2.755,1.597,3.21c1,0.33,1.66-0.472,2.258-1.105c2.713-2.879,4.646-6.277,6.377-9.794
-		c0.764-1.551,1.423-3.156,2.063-4.764c0.476-1.189,1.216-1.774,2.558-1.754l10.894,0.013c0.321,0,0.647,0.003,0.965,0.058
-		c1.836,0.314,2.339,1.104,1.771,2.895c-0.894,2.814-2.631,5.158-4.329,7.508c-1.82,2.516-3.761,4.944-5.563,7.471
-		C71.48,50.992,71.611,52.155,73.667,54.161z"/>
+        <path className="st0" d="M13.162 18.994c.609 0 .858-.406.851-.915-.031-1.917.714-2.949 2.059-1.604 1.488 1.488 1.796 2.519 3.603 2.519h3.2c.808 0 1.126-.26 1.126-.668 0-.863-1.421-2.386-2.625-3.504-1.686-1.565-1.765-1.602-.313-3.486 1.801-2.339 4.157-5.336 2.073-5.336h-3.981c-.772 0-.828.435-1.103 1.083-.995 2.347-2.886 5.387-3.604 4.922-.751-.485-.407-2.406-.35-5.261.015-.754.011-1.271-1.141-1.539-.629-.145-1.241-.205-1.809-.205-2.273 0-3.841.953-2.95 1.119 1.571.293 1.42 3.692 1.054 5.16-.638 2.556-3.036-2.024-4.035-4.305-.241-.548-.315-.974-1.175-.974h-3.255c-.492 0-.787.16-.787.516 0 .602 2.96 6.72 5.786 9.77 2.756 2.975 5.48 2.708 7.376 2.708z"/>
         </svg>
       </span>
     );
@@ -75,9 +82,14 @@ class AuthPanel extends Component {
 
   RenderSocial = () => (
     <SocialContainer className="unauthorized">
-      <SocialIcon><button className="btn btn-default" onClick={this.auth('facebook')}>{this.FacebookRender()}</button></SocialIcon>
-      <SocialIcon><button className="btn btn-default" onClick={this.auth('twitter')}>{this.TwitterRender()}</button></SocialIcon>
-      <SocialIcon><button className="btn btn-default" onClick={this.auth('google')}>{this.GoogleRender()}</button></SocialIcon>
+      <SocialIcon><button className="btn btn-default" onClick={() => (
+                          <Redirect to="paulkotov.localtest.me:5000/auth/facebook"/>)}>{this.FacebookRender()}</button></SocialIcon>
+      <SocialIcon><button className="btn btn-default" onClick={() => (
+                          <Redirect to="paulkotov.localtest.me:5000/auth/twitter"/>)}>{this.TwitterRender()}</button></SocialIcon>
+      <SocialIcon><button className="btn btn-default" onClick={() => (
+                          <Redirect to="paulkotov.localtest.me:5000/auth/google"/>)}>{this.GoogleRender()}</button></SocialIcon>
+      <SocialIcon><button className="btn btn-default" onClick={() => (
+                          <Redirect to="paulkotov.localtest.me:5000/auth/vk"/>)}>{this.VKRender()}</button></SocialIcon>
     </SocialContainer>
   );
   
