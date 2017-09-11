@@ -8,7 +8,7 @@ export default class Header extends Component {
     isAuth: PropTypes.object.isRequired,
     addData: PropTypes.func.isRequired,
     deleteData: PropTypes.func.isRequired,
-    loadDate: PropTypes.func.isRequired
+    loadData: PropTypes.func.isRequired
   }
   
   constructor(){

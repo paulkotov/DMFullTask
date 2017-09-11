@@ -1,16 +1,22 @@
 import React, { Component, PropTypes } from 'react';
-import { Redirect } from 'react-router-dom';
+//import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { isObjEmpty } from '../libs/api';
 
 const SocialContainer = styled.div`
   display: inline-flex;
   flex-direction: row-reverse;
+  padding: 10px; 
   `;
   
 const SocialIcon = styled.div`
   pointer: cursor;
-  padding: 5px;
+  padding: 10px;
+  &:hover {
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    background: linear-gradient(to bottom, #fcfff4, #e9e9ce);
+    color: #a00;
+  }
 `;
 
 class AuthPanel extends Component {
@@ -44,7 +50,7 @@ class AuthPanel extends Component {
     return(
       <span>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-        <path className="st0" d="M13.162 18.994c.609 0 .858-.406.851-.915-.031-1.917.714-2.949 2.059-1.604 1.488 1.488 1.796 2.519 3.603 2.519h3.2c.808 0 1.126-.26 1.126-.668 0-.863-1.421-2.386-2.625-3.504-1.686-1.565-1.765-1.602-.313-3.486 1.801-2.339 4.157-5.336 2.073-5.336h-3.981c-.772 0-.828.435-1.103 1.083-.995 2.347-2.886 5.387-3.604 4.922-.751-.485-.407-2.406-.35-5.261.015-.754.011-1.271-1.141-1.539-.629-.145-1.241-.205-1.809-.205-2.273 0-3.841.953-2.95 1.119 1.571.293 1.42 3.692 1.054 5.16-.638 2.556-3.036-2.024-4.035-4.305-.241-.548-.315-.974-1.175-.974h-3.255c-.492 0-.787.16-.787.516 0 .602 2.96 6.72 5.786 9.77 2.756 2.975 5.48 2.708 7.376 2.708z"/>
+        <path className="st0" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm.25 16.996h-2.134c-1.205 0-1.409-.687-2.401-1.679-.897-.897-1.395-.209-1.374 1.068.006.339-.161.611-.566.611-1.264 0-3.08.178-4.918-1.806-1.883-2.033-3.857-6.111-3.857-6.513 0-.237.196-.344.524-.344h2.17c.574 0 .623.284.783.649.667 1.521 2.265 4.574 2.69 2.87.244-.978.344-3.245-.703-3.44-.594-.11.452-.746 1.968-.746.377 0 .786.041 1.205.137.769.179.771.523.761 1.026-.039 1.903-.269 3.184.233 3.507.479.31 1.739-1.717 2.403-3.281.183-.433.219-.722.734-.722h2.654c1.39 0-.182 1.997-1.383 3.557-.968 1.255-.916 1.28.209 2.324.803.744 1.75 1.76 1.75 2.336.002.272-.21.446-.748.446z"/>
         </svg>
       </span>
     );
@@ -82,14 +88,10 @@ class AuthPanel extends Component {
 
   RenderSocial = () => (
     <SocialContainer className="unauthorized">
-      <SocialIcon><button className="btn btn-default" onClick={() => (
-                          <Redirect to="paulkotov.localtest.me:5000/auth/facebook"/>)}>{this.FacebookRender()}</button></SocialIcon>
-      <SocialIcon><button className="btn btn-default" onClick={() => (
-                          <Redirect to="paulkotov.localtest.me:5000/auth/twitter"/>)}>{this.TwitterRender()}</button></SocialIcon>
-      <SocialIcon><button className="btn btn-default" onClick={() => (
-                          <Redirect to="paulkotov.localtest.me:5000/auth/google"/>)}>{this.GoogleRender()}</button></SocialIcon>
-      <SocialIcon><button className="btn btn-default" onClick={() => (
-                          <Redirect to="paulkotov.localtest.me:5000/auth/vk"/>)}>{this.VKRender()}</button></SocialIcon>
+      <SocialIcon><a href="http://paulkotov.localtest.me:5000/auth/facebook" target="blank">{this.FacebookRender()}</a></SocialIcon>
+      <SocialIcon><a href="http://paulkotov.localtest.me:5000/auth/twitter">{this.TwitterRender()}</a></SocialIcon>
+      <SocialIcon><a href="http://paulkotov.localtest.me:5000/auth/google">{this.GoogleRender()}</a></SocialIcon>
+      <SocialIcon><a href="http://paulkotov.localtest.me:5000/auth/vk">{this.VKRender()}</a></SocialIcon>
     </SocialContainer>
   );
   
