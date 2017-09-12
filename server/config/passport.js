@@ -5,7 +5,7 @@ var mongoose = require('mongoose')
   , FacebookStrategy = require('passport-facebook').Strategy
   , GitHubStrategy = require('passport-github').Strategy
   , GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-  , AuthVKStrategy = require('passport-vkontakte').Strategy
+  , VKStrategy = require('passport-vkontakte').Strategy
 
   , User = mongoose.model('User')
 
@@ -16,13 +16,13 @@ module.exports = function (passport, config) {
   // serialize sessions
   passport.serializeUser(function(user, done) {
     done(null, user.id)
-  })
+  });
 
   passport.deserializeUser(function(id, done) {
     User.findOne({ _id: id }, function (err, user) {
-      done(err, user)
-    })
-  })
+      done(null, user)
+    });
+  });
 
   // use local strategy
   passport.use(new LocalStrategy({
@@ -43,34 +43,34 @@ module.exports = function (passport, config) {
     }
   ))
 
-  // use twitter strategy
-  passport.use(new TwitterStrategy({
-        consumerKey: config.twitter.clientID
-      , consumerSecret: config.twitter.clientSecret
-      , callbackURL: config.twitter.callbackURL
-    },
-    function(token, tokenSecret, profile, done) {
-      User.findOne({ 'twitter.id': parseInt(profile.id) }, function (err, user) {
-        if (err) { return done(err) }
-        if (!user) {
-          user = new User({
-              name: profile.displayName
-            , username: profile.username
-            , provider: 'twitter'
-            , twitter: profile._json
-            , avatar: profile._json.profile_image_url
-          });
-          user.save(function (err) {
-            if (err) console.log(err)
-            return done(err, user)
-          })
-        }
-        else {
-          return done(err, user)
-        }
-      })
-    }
-  ))
+  // // use twitter strategy
+  // passport.use(new TwitterStrategy({
+  //       consumerKey: config.twitter.clientID
+  //     , consumerSecret: config.twitter.clientSecret
+  //     , callbackURL: config.twitter.callbackURL
+  //   },
+  //   function(token, tokenSecret, profile, done) {
+  //     User.findOne({ 'twitter.id': parseInt(profile.id) }, function (err, user) {
+  //       if (err) { return done(err) }
+  //       if (!user) {
+  //         user = new User({
+  //             name: profile.displayName
+  //           , username: profile.username
+  //           , provider: 'twitter'
+  //           , twitter: profile._json
+  //           , avatar: profile._json.profile_image_url
+  //         });
+  //         user.save(function (err) {
+  //           if (err) console.log(err)
+  //           return done(err, user)
+  //         })
+  //       }
+  //       else {
+  //         return done(err, user)
+  //       }
+  //     })
+  //   }
+  // ))
 
   // use facebook strategy
   passport.use(new FacebookStrategy({
@@ -102,32 +102,32 @@ module.exports = function (passport, config) {
     }
   ))
 
-  // use github strategy
-  passport.use(new GitHubStrategy({
-      clientID: config.github.clientID,
-      clientSecret: config.github.clientSecret,
-      callbackURL: config.github.callbackURL
-    },
-    function(accessToken, refreshToken, profile, done) {
-      User.findOne({ 'github.id': profile.id }, function (err, user) {
-        if (!user) {
-          user = new User({
-              name: profile.displayName
-            , email: profile.emails[0].value
-            , username: profile.username
-            , provider: 'github'
-            , github: profile._json
-          })
-          user.save(function (err) {
-            if (err) console.log(err)
-            return done(err, user)
-          })
-        } else {
-          return done(err, user)
-        }
-      })
-    }
-  ))
+  // // use github strategy
+  // passport.use(new GitHubStrategy({
+  //     clientID: config.github.clientID,
+  //     clientSecret: config.github.clientSecret,
+  //     callbackURL: config.github.callbackURL
+  //   },
+  //   function(accessToken, refreshToken, profile, done) {
+  //     User.findOne({ 'github.id': profile.id }, function (err, user) {
+  //       if (!user) {
+  //         user = new User({
+  //             name: profile.displayName
+  //           , email: profile.emails[0].value
+  //           , username: profile.username
+  //           , provider: 'github'
+  //           , github: profile._json
+  //         })
+  //         user.save(function (err) {
+  //           if (err) console.log(err)
+  //           return done(err, user)
+  //         })
+  //       } else {
+  //         return done(err, user)
+  //       }
+  //     })
+  //   }
+  // ))
 
   // use google strategy
 passport.use(new GoogleStrategy({
@@ -161,17 +161,47 @@ passport.use(new GoogleStrategy({
     }
   ));
 
-passport.use('vk', new AuthVKStrategy({
+  passport.use('vk', new VKStrategy({
     clientID: config.vk.clientID,
     clientSecret: config.vk.clientSecret,
     callbackURL: config.vk.callbackURL
-},
-  function (accessToken, refreshToken, profile, done) {
-      return done(null, {
-          username: profile.displayName,
-          photoUrl: profile.photos[0].value,
-          profileUrl: profile.profileUrl
-      });
+  },
+  function(accessToken, refreshToken, profile, done) {
+    console.log(profile);
+    User.findOne({ 'vk.id': profile.id }, function (err, user) {
+      if (!user) {
+        var new_profile = {}
+        new_profile.id = profile.id
+        new_profile.displayName = profile.displayName
+        new_profile.emails = profile.emails
+        user = new User({
+            name: profile.displayName
+          , email: profile.emails[0].value
+          , username: profile.username
+          , provider: 'VK'
+          , google: new_profile._json
+        })
+        user.save(function (err) {
+          if (err) console.log(err)
+          return done(err, user)
+        })
+      } else {
+        return done(err, user)
+      }
+    })
   }
-)); 
+));  
+// passport.use('vk', new AuthVKStrategy({
+//     clientID: config.vk.clientID,
+//     clientSecret: config.vk.clientSecret,
+//     callbackURL: config.vk.callbackURL
+// },
+//   function (accessToken, refreshToken, profile, done) {
+//       return done(null, {
+//           username: profile.displayName,
+//           photoUrl: profile.photos[0].value,
+//           profileUrl: profile.profileUrl
+//       });
+//   }
+// )); 
 }

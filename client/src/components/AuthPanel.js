@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-//import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { isObjEmpty } from '../libs/api';
 
@@ -24,27 +24,13 @@ class AuthPanel extends Component {
   constructor(){
     super();
     this.state = {
-      isAuth: false,
       profile: {}
     };
   }
 
-  onAddHandler = () => {
-    fetch(' http://paulkotov.localtest.me:5000/' ,{
-      mode: 'cors',
-      method:  'GET',
-      headers: {
-        'Content-type' : 'plain/text'
-      }
-    }).then(r => r.json())
-      .then( (result) => {
-        this.setState(
-          { count: result.count, 
-            data: result.results }
-        );
-        this.props.login(this.state.profile);  
-      }).catch(alert);   
-  }
+  socialAuthHandler = () => (
+      <Link to="/login" />
+  );
 
   VKRender(){
     return(
@@ -66,16 +52,6 @@ class AuthPanel extends Component {
     );
   }
 
-  TwitterRender(){
-    return(
-      <span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-          <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-.139 9.237c.209 4.617-3.234 9.765-9.33 9.765-1.854 0-3.579-.543-5.032-1.475 1.742.205 3.48-.278 4.86-1.359-1.437-.027-2.649-.976-3.066-2.28.515.098 1.021.069 1.482-.056-1.579-.317-2.668-1.739-2.633-3.26.442.246.949.394 1.486.411-1.461-.977-1.875-2.907-1.016-4.383 1.619 1.986 4.038 3.293 6.766 3.43-.479-2.053 1.08-4.03 3.199-4.03.943 0 1.797.398 2.395 1.037.748-.147 1.451-.42 2.086-.796-.246.767-.766 1.41-1.443 1.816.664-.08 1.297-.256 1.885-.517-.439.656-.996 1.234-1.639 1.697z"/>
-        </svg>
-      </span>
-    );
-  }
-
   GoogleRender(){
     return(
       <span>
@@ -89,9 +65,8 @@ class AuthPanel extends Component {
   RenderSocial = () => (
     <SocialContainer className="unauthorized">
       <SocialIcon><a href="http://paulkotov.localtest.me:5000/auth/facebook" target="blank">{this.FacebookRender()}</a></SocialIcon>
-      <SocialIcon><a href="http://paulkotov.localtest.me:5000/auth/twitter">{this.TwitterRender()}</a></SocialIcon>
-      <SocialIcon><a href="http://paulkotov.localtest.me:5000/auth/google">{this.GoogleRender()}</a></SocialIcon>
-      <SocialIcon><a href="http://paulkotov.localtest.me:5000/auth/vk">{this.VKRender()}</a></SocialIcon>
+      <SocialIcon><a href="http://paulkotov.localtest.me:5000/auth/google" target="blank">{this.GoogleRender()}</a></SocialIcon>
+      <SocialIcon><a href="http://paulkotov.localtest.me:5000/auth/vk" target="blank">{this.VKRender()}</a></SocialIcon>
     </SocialContainer>
   );
   
@@ -124,3 +99,20 @@ AuthPanel.propTypes = {
 };
 
 export default AuthPanel;
+
+/*
+
+  socialAuthHandler = social => {
+    fetch(` http://paulkotov.localtest.me:5000/auth` ,{
+      mode: 'cors',
+      method:  'GET',
+      headers: {
+        'Content-type' : 'plain/text'
+      }
+    }).then(r => r.json())
+      .then( (result) => {
+        this.setState({ profile: result });
+        this.props.login(this.state.profile);  
+      }).catch(alert);   
+  }
+  */
