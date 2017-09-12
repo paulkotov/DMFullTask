@@ -11,9 +11,9 @@ module.exports = {
       name: 'Pokemons'
     },
     facebook: {
-      clientID: "APP_ID",
-      clientSecret: "APP_SECRET",
-      callbackURL: "http://127.0.0.1:5000/auth/facebook/callback"
+      clientID: "1925501834358046",
+      clientSecret: "e1188f642d28e0bb583924ee47c4df41",
+      callbackURL: "http://paulkotov.localtest.me:5000/auth/facebook/callback"
     },
     twitter: {
       clientID: "CONSUMER_KEY",
@@ -30,6 +30,11 @@ module.exports = {
       clientSecret: "HQyY_VxvMeSO0i2670eGf8j-",
       callbackURL: "http://paulkotov.localtest.me:5000/auth/google/callback"
     },
+    vk: {
+      clientID: "6181955",
+      clientSecret: "6kOIBqz0rWgokactufuD",
+      callbackURL: "http://paulkotov.localtest.me:5000/auth/vk/callback"
+    }
   },
   test: {
     db: 'mongodb://127.0.0.1:5000/pokemons_test',
@@ -38,8 +43,8 @@ module.exports = {
       name: 'Pokemons'
     },
     facebook: {
-      clientID: "APP_ID",
-      clientSecret: "APP_SECRET",
+      clientID: "1925501834358046",
+      clientSecret: "e1188f642d28e0bb583924ee47c4df41",
       callbackURL: "http://paulkotov.localtest.me:5000/auth/facebook/callback"
     },
     twitter: {
