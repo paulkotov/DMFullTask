@@ -5,7 +5,7 @@ var path = require('path')
 
 module.exports = {
   development: {
-    db: 'mongodb://127.0.0.1/pokemons',
+    db: 'mongodb://paulkotov:123456@ds131854.mlab.com:31854/pokemons',
     root: rootPath,
     app: {
       name: 'Pokemons'
@@ -37,7 +37,7 @@ module.exports = {
     }
   },
   test: {
-    db: 'mongodb://127.0.0.1:5000/pokemons_test',
+    db: 'mongodb://paulkotov:123456@ds131854.mlab.com:31854/pokemons',
     root: rootPath,
     app: {
       name: 'Pokemons'

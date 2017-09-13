@@ -1,8 +1,6 @@
 var mongoose = require('mongoose')
   , LocalStrategy = require('passport-local').Strategy
-  , TwitterStrategy = require('passport-twitter').Strategy
   , FacebookStrategy = require('passport-facebook').Strategy
-  , GitHubStrategy = require('passport-github').Strategy
   , GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
   , VKStrategy = require('passport-vkontakte').Strategy
 
@@ -44,35 +42,6 @@ module.exports = function (passport, config) {
     }
   ))
 
-  // // use twitter strategy
-  // passport.use(new TwitterStrategy({
-  //       consumerKey: config.twitter.clientID
-  //     , consumerSecret: config.twitter.clientSecret
-  //     , callbackURL: config.twitter.callbackURL
-  //   },
-  //   function(token, tokenSecret, profile, done) {
-  //     User.findOne({ 'twitter.id': parseInt(profile.id) }, function (err, user) {
-  //       if (err) { return done(err) }
-  //       if (!user) {
-  //         user = new User({
-  //             name: profile.displayName
-  //           , username: profile.username
-  //           , provider: 'twitter'
-  //           , twitter: profile._json
-  //           , avatar: profile._json.profile_image_url
-  //         });
-  //         user.save(function (err) {
-  //           if (err) console.log(err)
-  //           return done(err, user)
-  //         })
-  //       }
-  //       else {
-  //         return done(err, user)
-  //       }
-  //     })
-  //   }
-  // ))
-
   // use facebook strategy
   passport.use(new FacebookStrategy({
       clientID: config.facebook.clientID
@@ -80,13 +49,14 @@ module.exports = function (passport, config) {
       , callbackURL: config.facebook.callbackURL
     },
     function (accessToken, refreshToken, profile, done) {
-      User.findOne({'facebook.id': profile.id}, function (err, user) {
+      User.findOne({'fbId': profile.id}, function (err, user) {
         if (err) {
           return done(err)
         }
         if (!user) {
           user = new User({
-            name: profile.displayName
+            fbId: profile.id
+            , name: profile.displayName
             , email: profile.emails[0].value
             , username: profile.username
             , provider: 'facebook'
@@ -105,33 +75,6 @@ module.exports = function (passport, config) {
     }
   ))
 
-  // // use github strategy
-  // passport.use(new GitHubStrategy({
-  //     clientID: config.github.clientID,
-  //     clientSecret: config.github.clientSecret,
-  //     callbackURL: config.github.callbackURL
-  //   },
-  //   function(accessToken, refreshToken, profile, done) {
-  //     User.findOne({ 'github.id': profile.id }, function (err, user) {
-  //       if (!user) {
-  //         user = new User({
-  //             name: profile.displayName
-  //           , email: profile.emails[0].value
-  //           , username: profile.username
-  //           , provider: 'github'
-  //           , github: profile._json
-  //         })
-  //         user.save(function (err) {
-  //           if (err) console.log(err)
-  //           return done(err, user)
-  //         })
-  //       } else {
-  //         return done(err, user)
-  //       }
-  //     })
-  //   }
-  // ))
-
   // use google strategy
   passport.use(new GoogleStrategy({
       clientID: config.google.clientID,
@@ -139,15 +82,19 @@ module.exports = function (passport, config) {
       callbackURL: config.google.callbackURL
     },
     function (accessToken, refreshToken, profile, done) {
-      User.findOne({'google.id': profile.id}, function (err, user) {
+      User.findOne({'gId': profile.id}, function (err, user) {
+        if (err) {
+          return done(err)
+        }
         if (!user) {
           // make a new google profile without key start with $
-          var new_profile = {}
-          new_profile.id = profile.id
-          new_profile.displayName = profile.displayName
-          new_profile.emails = profile.emails
+          var new_profile = {};
+          new_profile.id = profile.id;
+          new_profile.displayName = profile.displayName;
+          new_profile.emails = profile.emails;
           user = new User({
-            name: profile.displayName
+            gId: profile.id
+            , name: profile.displayName
             , email: profile.emails[0].value
             , username: profile.username
             , provider: 'google'
@@ -170,13 +117,17 @@ module.exports = function (passport, config) {
       callbackURL: config.vk.callbackURL
     },
     function (accessToken, refreshToken, profile, done) {
+      console.log(profile)
       User.findOne({vkId: profile.id}, function (err, user) {
+        if (err) {
+          return done(err)
+        }
         if (!user) {
           user = new User({
             vkId: profile.id
             , name: profile.displayName
             , username: profile.username
-            , provider: 'vk'
+            , provider: 'vkontakte'
           })
           user.save(function (err) {
             if (err) console.log(err)
@@ -188,17 +139,4 @@ module.exports = function (passport, config) {
       })
     }
   ));
-// passport.use('vk', new AuthVKStrategy({
-//     clientID: config.vk.clientID,
-//     clientSecret: config.vk.clientSecret,
-//     callbackURL: config.vk.callbackURL
-// },
-//   function (accessToken, refreshToken, profile, done) {
-//       return done(null, {
-//           username: profile.displayName,
-//           photoUrl: profile.photos[0].value,
-//           profileUrl: profile.profileUrl
-//       });
-//   }
-// )); 
 }

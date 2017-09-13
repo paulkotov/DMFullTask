@@ -39,10 +39,13 @@ app.get('/auth/vk/callback',
   users.authCallback
  );
 
-  app.get('/auth/google', passport.authenticate('google', 
+  app.get('/auth/google', 
+    passport.authenticate('google', 
           { scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email'] }), 
           users.signin);
-  app.get('/auth/google/callback', passport.authenticate('google', 
+          
+  app.get('/auth/google/callback', 
+    passport.authenticate('google', 
           { failureRedirect: '/login', successRedirect: '/' }), 
           users.authCallback); 
   

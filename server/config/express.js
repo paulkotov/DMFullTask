@@ -44,7 +44,7 @@ app.configure(function () {
 
   // express/mongo session storage
   app.use(express.session({
-    secret: 'noobjs' 
+    secret: 'secret' 
   }));
 
   // connect flash for flash messages
