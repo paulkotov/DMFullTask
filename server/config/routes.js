@@ -51,7 +51,7 @@ app.get('/auth/vk/callback',
 
   app.get('/auth', function(req, res){
     if (req.isAuthenticated()) {
-      res.send(req.params);
+      res.send(req.user);
       return;
     }
     res.send({});
