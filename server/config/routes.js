@@ -3,6 +3,7 @@ module.exports = function (app, passport, auth) {
 
   //User controller
   var users = require('../app/controllers/users');
+  var pokemons = require('../app/controllers/pokemons');
   var authorization = require('./middlewares/authorization');
   var home = require('../app/controllers/home');
 
@@ -41,7 +42,8 @@ app.get('/auth/vk/callback',
 
   app.get('/auth/google', 
     passport.authenticate('google', 
-          { scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email'] }), 
+          { scope: ['https://www.googleapis.com/auth/userinfo.profile', 
+          'https://www.googleapis.com/auth/userinfo.email'] }), 
           users.signin);
           
   app.get('/auth/google/callback', 
@@ -49,22 +51,21 @@ app.get('/auth/vk/callback',
           { failureRedirect: '/login', successRedirect: '/' }), 
           users.authCallback); 
   
-  app.get('/user/showall', function(req, res, next){
+  app.get('/pokemons/showall', function(req, res){
     if (req.isAuthenticated()) {
-      users.showPokemons(req, res, next);
+      pokemons.showPokemons().then(data => res.send(data));;
     }
     res.send({});
   });
 
-  app.post('/user/add', function(req, res, next){
+  app.post('/pokemons/add', (req, res) => {
     if (req.isAuthenticated()) {
-      users.addPokemon(req, res, next)
-      return;
+      pokemons.addPokemon(req.body).then(data => res.send(data)); 
     }
     res.send({});
   });
 
-  app.get('/auth', function(req, res){
+  app.get('/auth', (req, res) => {
     if (req.isAuthenticated()) {
       res.send(req.user);
     }

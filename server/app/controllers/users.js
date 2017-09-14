@@ -115,25 +115,25 @@ User
 /**
 * Save user pokemon
 */
-exports.savePokemon = function (req, res, next) {
-  User
-  .findOne({ _id : req.params['userId'] })
-  .exec(function (err, user) {
-    if (err) return next(err);
-    if (!user) return next(new Error('User not found!'));
-    user.addPokemon(req.body);    
-  });  
-}
+// exports.savePokemon = function (req, res, next) {
+//   User
+//   .findOne({ _id : req.params['userId'] })
+//   .exec(function (err, user) {
+//     if (err) return next(err);
+//     if (!user) return next(new Error('User not found!'));
+//     user.addPokemon(req.body);    
+//   });  
+// }
 
-/**
-* Show user pokemons
-*/
-exports.showPokemons = function (req, res, next) {
-  User
-  .findOne({ _id : req.params['userId'] })
-  .exec(function (err, user) {
-    if (err) return next(err);
-    if (!user) return next(new Error('User not found!'));
-    res.send(user.pokemons);  
-  });  
-}
+// /**
+// * Show user pokemons
+// */
+// exports.showPokemons = function (req, res, next) {
+//   User
+//   .findOne({ _id : req.params['userId'] })
+//   .exec(function (err, user) {
+//     if (err) return next(err);
+//     if (!user) return next(new Error('User not found!'));
+//     res.send(user.pokemons);  
+//   });  
+// }
