@@ -81,7 +81,6 @@ UserSchema.path('hashed_password').validate(function (hashed_password) {
 
 UserSchema.pre('save', function(next) {
   if (!this.isNew) return next()
-
   if (authTypes.indexOf(this.provider) === -1)
     next(new Error('Error'))
   else

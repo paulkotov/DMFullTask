@@ -3,13 +3,13 @@ module.exports = function (app, passport, auth) {
 
   //User controller
   var users = require('../app/controllers/users');
-  var requiresLogin = require('./middlewares/authorization').requiresLogin;
+  var authorization = require('./middlewares/authorization');
   var home = require('../app/controllers/home');
 
   app.get('/login', users.login);
   app.get('/logout', users.logout);
-  app.post('/users/session', passport.authenticate('local', {failureRedirect: '/login', failureFlash: 'Invalid email or password.'}), users.session);
-  app.get('/users/:userId', users.show);
+  // app.post('/users/session', passport.authenticate('local', {failureRedirect: '/login', failureFlash: 'Invalid email or password.'}), users.session);
+  // app.get('/users/:userId', users.show);
 
   app.get('/auth/facebook',
   passport.authenticate('facebook', {
@@ -49,13 +49,24 @@ app.get('/auth/vk/callback',
           { failureRedirect: '/login', successRedirect: '/' }), 
           users.authCallback); 
   
-  app.get('/user/pokemons', requiresLogin, users.showPokemons);
-  app.post('/user/pokemon', requiresLogin, users.savePokemon);
+  app.get('/user/showall', function(req, res, next){
+    if (req.isAuthenticated()) {
+      users.showPokemons(req, res, next);
+    }
+    res.send({});
+  });
+
+  app.post('/user/add', function(req, res, next){
+    if (req.isAuthenticated()) {
+      users.addPokemon(req, res, next)
+      return;
+    }
+    res.send({});
+  });
 
   app.get('/auth', function(req, res){
     if (req.isAuthenticated()) {
       res.send(req.user);
-      return;
     }
     res.send({});
   });

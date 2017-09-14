@@ -49,6 +49,7 @@ module.exports = function (passport, config) {
       , callbackURL: config.facebook.callbackURL
     },
     function (accessToken, refreshToken, profile, done) {
+      console.log(profile)
       User.findOne({'fbId': profile.id}, function (err, user) {
         if (err) {
           return done(err)
@@ -57,7 +58,7 @@ module.exports = function (passport, config) {
           user = new User({
             fbId: profile.id
             , name: profile.displayName
-            , email: profile.emails[0].value
+            , email: 'paulkotov@email.com'
             , username: profile.username
             , provider: 'facebook'
             , facebook: profile._json
