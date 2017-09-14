@@ -7,7 +7,7 @@ var mongoose = require('mongoose')
   , Schema = mongoose.Schema
   , crypto = require('crypto')
   , _ = require('underscore')
-  , authTypes = ['github', 'twitter', 'facebook', 'google']
+  , authTypes = ['facebook', 'google', 'vkontakte']
 
 /**
  * User Schema
@@ -22,9 +22,8 @@ var UserSchema = new Schema({
   hashed_password: String,
   salt: String,
   facebook: {},
-  twitter: {},
-  github: {},
   google: {},
+  vkontakte: {},
   pokemons: []
 })
 
@@ -83,9 +82,8 @@ UserSchema.path('hashed_password').validate(function (hashed_password) {
 UserSchema.pre('save', function(next) {
   if (!this.isNew) return next()
 
-  if (!validatePresenceOf(this.password)
-    && authTypes.indexOf(this.provider) === -1)
-    next(new Error('Invalid password'))
+  if (authTypes.indexOf(this.provider) === -1)
+    next(new Error('Error'))
   else
     next()
 })
