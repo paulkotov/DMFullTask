@@ -10,7 +10,7 @@ import { ADD_DATA, DELETE_DATA, LOGIN, LOGOUT, LOADDATA } from '../constants/Act
 // ];
 
 const initialState = {
-  profile: { User: 'user' },
+  profile: {},
   data: [
     { name: ' ',
       url: ' '

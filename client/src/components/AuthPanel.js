@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { isObjEmpty } from '../libs/api';
+import { isObjEmpty, getProfile } from '../libs/api';
 
 const SocialContainer = styled.div`
   display: inline-flex;
@@ -64,15 +64,15 @@ class AuthPanel extends Component {
 
   RenderSocial = () => (
     <SocialContainer className="unauthorized">
-      <SocialIcon><a href="http://paulkotov.localtest.me:5000/auth/facebook" target="blank">{this.FacebookRender()}</a></SocialIcon>
-      <SocialIcon><a href="http://paulkotov.localtest.me:5000/auth/google" target="blank">{this.GoogleRender()}</a></SocialIcon>
-      <SocialIcon><a href="http://paulkotov.localtest.me:5000/auth/vk" target="blank">{this.VKRender()}</a></SocialIcon>
+      <SocialIcon><a href="http://paulkotov.localtest.me:5000/auth/facebook">{this.FacebookRender()}</a></SocialIcon>
+      <SocialIcon><a href="http://paulkotov.localtest.me:5000/auth/google">{this.GoogleRender()}</a></SocialIcon>
+      <SocialIcon><a href="http://paulkotov.localtest.me:5000/auth/vk">{this.VKRender()}</a></SocialIcon>
     </SocialContainer>
   );
   
-  RenderAuth = (isAuth) => (
+  RenderAuth = () => (
     <div className="authorized">
-      Loged in as: <strong>{isAuth.User}</strong>
+      Loged in as: <strong>{this.state.profile.name}</strong>
       <button className="btn btn-default" onClick={this.OnLogoutHandler}>LogOut</button>  
     </div>
     );
@@ -81,19 +81,24 @@ class AuthPanel extends Component {
     this.props.logout();
   };
 
-  render(){
-    const { isAuth } = this.props;
+  loadProfile = () => {
+    const data = getProfile();
+    this.setState({
+      profile: data
+    });
+  };
 
+  render(){
     return (
       <div>
-        { isObjEmpty(isAuth) ? this.RenderSocial() : this.RenderAuth(isAuth) } 
+        { this.loadProfile() }
+        { isObjEmpty(this.state.profile) ? this.RenderSocial() : this.RenderAuth() } 
       </div>
     );
   }
 }
 
 AuthPanel.propTypes = {
-  isAuth: PropTypes.object.isRequired,
   login: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired
 };

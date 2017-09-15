@@ -24,7 +24,7 @@ function fetchData(query) {
 // }
 
 async function socialAuth(social) {
-  return fetch('paulkotov.localtest.me:5000/auth/' + social, {
+  const auth = await fetch('paulkotov.localtest.me:5000/auth/' + social, {
     method: 'GET',
     headers: {
       'Content-type': 'plain/text'
@@ -39,6 +39,19 @@ async function socialAuth(social) {
     .catch(function() {
       return {};
     });
+  return auth;
+}
+
+async function getProfile(){
+  const profile = await fetch('paulkotov.localtest.me:5000/auth/', {
+    method: 'GET',
+    headers: {
+      'Content-type': 'plain/text'
+    }
+  }).then( (res) => {
+    res.json();
+  });
+  return profile;
 }
 
 function isObjEmpty(obj){
@@ -50,4 +63,4 @@ function isObjEmpty(obj){
   return true;
 } 
 
-export { fetchData, isObjEmpty, socialAuth };
+export { fetchData, isObjEmpty, socialAuth, getProfile };
