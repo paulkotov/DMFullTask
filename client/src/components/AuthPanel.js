@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { isObjEmpty, getProfile } from '../libs/api';
+import { isObjEmpty } from '../libs/api';
 
 const SocialContainer = styled.div`
   display: inline-flex;
@@ -82,10 +82,17 @@ class AuthPanel extends Component {
   };
 
   loadProfile = () => {
-    const data = getProfile();
-    this.setState({
-      profile: data
-    });
+    fetch('http://paulkotov.localtest.me:5000/auth' ,{
+      mode: 'no-cors',
+      method:  'GET',
+      headers: {
+        'Content-type' : 'plain/text'
+      }
+    }).then(r => r.json())
+      .then( (result) => {
+        this.setState({ profile: result });
+        this.props.login(this.state.profile);  
+      }).catch(alert);  
   };
 
   render(){
@@ -104,20 +111,3 @@ AuthPanel.propTypes = {
 };
 
 export default AuthPanel;
-
-/*
-
-  socialAuthHandler = social => {
-    fetch(` http://paulkotov.localtest.me:5000/auth` ,{
-      mode: 'cors',
-      method:  'GET',
-      headers: {
-        'Content-type' : 'plain/text'
-      }
-    }).then(r => r.json())
-      .then( (result) => {
-        this.setState({ profile: result });
-        this.props.login(this.state.profile);  
-      }).catch(alert);   
-  }
-  */

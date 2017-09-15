@@ -54,22 +54,29 @@ app.get('/auth/vk/callback',
   app.get('/pokemons/showall', function(req, res){
     if (req.isAuthenticated()) {
       pokemons.showPokemons().then(data => res.send(data));;
+    }else {
+      res.send({});
     }
-    res.send({});
   });
 
   app.post('/pokemons/add', (req, res) => {
+    console.log(req.isAuthenticated());
+    console.log(req.user);
     if (req.isAuthenticated()) {
-      pokemons.addPokemon(req.body).then(data => res.send(data)); 
+      // pokemons.addPokemon(req.body).then(() => {res.send(saved)}); 
+      res.send('<h2>saved</h2>') 
+    }else{
+      res.send({});
     }
-    res.send({});
   });
 
   app.get('/auth', (req, res) => {
     if (req.isAuthenticated()) {
       res.send(req.user);
     }
-    res.send({});
+    else {
+      res.send({});
+    }
   });
   
   app.get('/', home.index);

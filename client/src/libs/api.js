@@ -1,27 +1,15 @@
-
-import { fetch } from 'isomorphic-fetch';
-
-function fetchData(query) {
-  return fetch(` https://pokeapi.co/api/v2/${query} ` ,{
+async function fetchData(query) {
+  const data = await fetch(` https://pokeapi.co/api/v2/${query} ` ,{
     mode: 'cors',
     method:  'GET',
     headers: {
       'Content-type': 'plain/text'
     }
-  }).then(r => r.json()).then((result)=> {return result;}).catch(alert);  
-
+  }).then(r => r.json())
+  .then((result)=> {return result;})
+  .catch(alert);  
+  return data;
 }
-
-// function auth(authObject) {
-//   return fetch(`${API_DOMAIN}/auth`, {
-//     method: 'POST',
-//     body:   JSON.stringify(authObject)
-//   }).then(r => r.json());
-// }
-
-// async function submittedData(values) {
-//   console.log(`You submitted:\n\n${JSON.stringify(values, null, 2)}`);
-// }
 
 async function socialAuth(social) {
   const auth = await fetch('paulkotov.localtest.me:5000/auth/' + social, {
@@ -33,7 +21,7 @@ async function socialAuth(social) {
     .then(function(r) {
       return r.json();
     })
-    .then(function(result) {
+    .then((result) => {
       return result;
     })
     .catch(function() {
@@ -43,13 +31,14 @@ async function socialAuth(social) {
 }
 
 async function getProfile(){
-  const profile = await fetch('paulkotov.localtest.me:5000/auth/', {
+  const profile = await fetch('http://paulkotov.localtest.me:5000/auth/', {
+    mode: 'no-cors',
     method: 'GET',
     headers: {
       'Content-type': 'plain/text'
     }
   }).then( (res) => {
-    res.json();
+    JSON.parse(res.body);
   });
   return profile;
 }
