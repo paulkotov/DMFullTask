@@ -51,7 +51,7 @@ export default function pokemons(state = initialState, action) {
 
     case LOGOUT:
       return {
-        profile: { },
+        profile: {},
         data: [
           ...state.data
         ]

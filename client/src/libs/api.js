@@ -30,16 +30,16 @@ async function socialAuth(social) {
   return auth;
 }
 
-async function getProfile(){
-  const profile = await fetch('http://paulkotov.localtest.me:5000/auth/', {
+function getProfile(){
+  return fetch('http://paulkotov.localtest.me:5000/auth', {
     mode: 'no-cors',
     method: 'GET',
     credentials: 'include',
     headers: {
-      'Content-type': 'plain/text'
+      'Content-type' : 'plain/text'
     }
-  }).then((response)=>response.json());
-  return profile;
+  }).then(r => r.json())
+    .catch((err)=> alert(err));
 }
 
 function isObjEmpty(obj){
