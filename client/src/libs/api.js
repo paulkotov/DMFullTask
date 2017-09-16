@@ -34,12 +34,11 @@ async function getProfile(){
   const profile = await fetch('http://paulkotov.localtest.me:5000/auth/', {
     mode: 'no-cors',
     method: 'GET',
+    credentials: 'include',
     headers: {
       'Content-type': 'plain/text'
     }
-  }).then( (res) => {
-    JSON.parse(res.body);
-  });
+  }).then((response)=>response.json());
   return profile;
 }
 

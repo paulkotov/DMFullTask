@@ -10,7 +10,7 @@ res.redirect('/');
 */
 
 exports.authCallback = function (req, res, next) {
-res.redirect('/');
+res.redirect('http://localhost:3000');
 }
 
 /**

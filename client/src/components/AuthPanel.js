@@ -72,7 +72,7 @@ class AuthPanel extends Component {
   
   RenderAuth = () => (
     <div className="authorized">
-      Loged in as: <strong>{this.state.profile.name}</strong>
+      Loged in as: <strong>{this.props.profile.name}</strong>
       <button className="btn btn-default" onClick={this.OnLogoutHandler}>LogOut</button>  
     </div>
     );
@@ -81,31 +81,33 @@ class AuthPanel extends Component {
     this.props.logout();
   };
 
-  loadProfile = () => {
-    fetch('http://paulkotov.localtest.me:5000/auth' ,{
-      mode: 'no-cors',
-      method:  'GET',
-      headers: {
-        'Content-type' : 'plain/text'
-      }
-    }).then(r => r.json())
-      .then( (result) => {
-        this.setState({ profile: result });
-        this.props.login(this.state.profile);  
-      }).catch(alert);  
-  };
+  // loadProfile = () => {
+  //   fetch('http://paulkotov.localtest.me:5000/auth' ,{
+  //     mode: 'no-cors',
+  //     method:  'GET',
+  //     headers: {
+  //       'Content-type' : 'plain/text'
+  //     }
+  //   }).then(r => r.json())
+  //     .then( (result) => {
+  //       //this.setState({ profile: result });
+  //       this.props.login(this.state.profile);  
+  //     }).catch(alert);  
+  // };
 
   render(){
+    const { profile } = this.props;
+    console.log(this.props.profile);
     return (
       <div>
-        { this.loadProfile() }
-        { isObjEmpty(this.state.profile) ? this.RenderSocial() : this.RenderAuth() } 
+        { isObjEmpty(profile) ? this.RenderSocial() : this.RenderAuth() } 
       </div>
     );
   }
 }
 
 AuthPanel.propTypes = {
+  profile: PropTypes.object,
   login: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired
 };

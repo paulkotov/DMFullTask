@@ -43,9 +43,7 @@ export default function pokemons(state = initialState, action) {
 
     case LOGIN:
       return {
-        profile : {
-          ...action.profile
-        },
+        profile : action.profile,
         data: [
           ...state.data
         ]  

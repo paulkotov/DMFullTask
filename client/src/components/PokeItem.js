@@ -16,7 +16,7 @@ export default class PokeItem extends Component {
   static propTypes = {
     number: PropTypes.string,
     pokemon: PropTypes.object.isRequired,
-    auth: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
   };
 
   constructor(){
@@ -44,7 +44,7 @@ export default class PokeItem extends Component {
         <br/>
         <a href={pokemon.url}>Full info</a>
       </div>           
-      {isObjEmpty(this.props.auth) ? null : this.SaveButton()}    
+      {isObjEmpty(this.props.profile) ? null : this.SaveButton()}    
     </div> 
  );
 

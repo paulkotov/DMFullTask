@@ -19,7 +19,7 @@ export default class Main extends Component {
   static propTypes = {
     pokemons: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired,
-    auth: PropTypes.object.isRequired
+    profile: PropTypes.object.isRequired
   }
 
   constructor(){
@@ -78,12 +78,12 @@ export default class Main extends Component {
   }
 
   render() {
-    const { pokemons, auth } = this.props;
+    const { pokemons, profile } = this.props;
     const count = pokemons.length;
     const filtered = pokemons.filter((elem) => {
       switch(this.state.filter){     
         case 'NAME': 
-          return (elem.name === this.state.name) ? true : false;
+          return (elem.name === this.state.name);
 
         default:
           return true;
@@ -97,7 +97,7 @@ export default class Main extends Component {
         <Top/>
         <ul className="pokemons-list list-group">
           {filtered.map(pokemon =>
-            <PokeItem key={pokemon.name} number="" pokemon={pokemon} auth={auth}/>
+            <PokeItem key={pokemon.name} number="" pokemon={pokemon} profile={profile}/>
           )}
         </ul>
       </div>

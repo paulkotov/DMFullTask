@@ -5,7 +5,7 @@ import { isObjEmpty } from '../libs/api';
 
 export default class Header extends Component {
   static propTypes = {
-    isAuth: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
     addData: PropTypes.func.isRequired,
     deleteData: PropTypes.func.isRequired,
     loadData: PropTypes.func.isRequired
@@ -79,7 +79,7 @@ export default class Header extends Component {
   };
 
   render() {
-    const { isAuth } = this.props;
+    const { profile } = this.props;
     return (
       <div>
         <h1 className="title">Decision mapper test task</h1>
@@ -98,7 +98,7 @@ export default class Header extends Component {
               Clear
               </button>
           </span> 
-            {isObjEmpty(isAuth) ? null : this.loadData()}
+            {isObjEmpty(profile) ? null : this.loadData()}
       </div>
     </div>
     );
