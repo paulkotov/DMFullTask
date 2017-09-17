@@ -1,10 +1,15 @@
 var express = require('express')
+, cors = require('cors')
 , mongoStore = require('connect-mongo')(express)
 , flash = require('connect-flash')
 , helpers = require('view-helpers')
 , swig = require('swig');
 
 module.exports = function (app, config, passport) {
+
+var corsOptions = { origin: 'http://localhost:3000',
+  allowedHeaders: true,
+  credentials: true };
 
 app.set('showStackError', true);
 // should be placed before express.static
@@ -37,7 +42,7 @@ app.configure(function () {
 
   // cookieParser should be above session
   app.use(express.cookieParser());
-
+  app.use(cors(corsOptions));
   // bodyParser should be above methodOverride
   app.use(express.bodyParser());
   app.use(express.methodOverride());

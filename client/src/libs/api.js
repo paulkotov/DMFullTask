@@ -32,13 +32,14 @@ async function socialAuth(social) {
 
 function getProfile(){
   return fetch('http://paulkotov.localtest.me:5000/auth', {
-    mode: 'no-cors',
+    //mode: 'no-cors',
     method: 'GET',
     credentials: 'include',
     headers: {
-      'Content-type' : 'plain/text'
+      Accept: 'application/json'
     }
-  }).then(r => r.json())
+  }).then(response => response.json())
+//  .then(r =>  JSON.parse(r) )
     .catch((err)=> alert(err));
 }
 
