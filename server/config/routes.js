@@ -62,8 +62,9 @@ app.get('/auth/vk/callback',
     console.log(req.isAuthenticated());
     console.log(req.user);
     if (req.isAuthenticated()) {
-      // pokemons.addPokemon(req.body).then(() => {res.send(saved)}); 
-      res.send('<h2>saved</h2>') 
+      console.log(req.body);
+      pokemons.addPokemon(req.body).then(() => {res.send(saved)}); 
+      // res.send('<h2>saved</h2>') 
     }else{
       res.send({});
     }

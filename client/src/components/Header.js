@@ -67,17 +67,15 @@ export default class Header extends Component {
     this.props.deleteData();
   }
   
-  loadData = () => {
-    return (
+  loadData = () => (
       <span className="load" >
         <p>My data<br/></p> 
         <button className="loaddata btn btn-default" >
           Saved
         </button>
       </span>
-    );
-  };
-
+    )
+ 
   render() {
     const { profile } = this.props;
     return (
