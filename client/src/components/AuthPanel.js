@@ -97,7 +97,7 @@ class AuthPanel extends Component {
 
   render(){
     const { profile } = this.props;
-    console.log(profile);
+    // console.log(profile);
     return (
       <div>
         { isObjEmpty(profile) ? this.RenderSocial() : this.RenderAuth() } 

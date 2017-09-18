@@ -6,9 +6,19 @@ exports.addPokemon = function(data){
         name: data.name,
         url: data.url
     });
-    return pokemon.save();  
+    return new Promise ( (resolve, reject) => { 
+        pokemon.save( (err, res) => {
+            if (err) { reject(new Error("Error")); }
+            resolve(res);
+        });
+    }); 
 }
 
 exports.showPokemons = function(){
-  return pokemon.find();
+  return new Promise ((resolve, reject) => {
+    Pokemon.find( (err, res) => {
+        if (err) { reject(new Error("Error")); }
+        resolve(res);
+        });
+    }); 
 }

@@ -29,11 +29,12 @@ export default class PokeItem extends Component {
 
   saveThis = () => {
     const { pokemon } = this.props;
-    console.log(pokemon);
+    console.log(JSON.stringify(pokemon));
     fetch('http://paulkotov.localtest.me:5000/pokemons/add' ,{
       method:  'POST',
+      credentials: 'include',
       headers: {  
-        'Content-Type':'application/x-www-form-urlencoded' 
+        'Content-Type':'application/json' 
       },
       body: JSON.stringify(pokemon)
     }).then((res)=> {alert(`${pokemon.name} ${res.body}`);
@@ -53,7 +54,7 @@ export default class PokeItem extends Component {
         <br/>
         <a href={pokemon.url}>Full info</a>
       </div>           
-      {isObjEmpty(this.props.profile) ? null : this.SaveButton(pokemon)}    
+      {isObjEmpty(this.props.profile) ? null : this.SaveButton()}    
     </div> 
  );
 

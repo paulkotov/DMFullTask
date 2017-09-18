@@ -7,8 +7,8 @@ var express = require('express')
 
 module.exports = function (app, config, passport) {
 
-var corsOptions = { origin: 'http://localhost:3000',
-  allowedHeaders: true,
+  var corsOptions = { origin: 'http://localhost:3000',
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true };
 
 app.set('showStackError', true);
@@ -34,15 +34,11 @@ app.set('views', config.root + '/app/views');
 app.set('view cache', process.env.NODE_ENV !== 'development');
 
 app.configure(function () {
-  // dynamic helpers
-  // app.use(function(req,res,next){
-  //     req.locals.session = "eeeeeeee";
-  //     next();
-  // });
 
   // cookieParser should be above session
   app.use(express.cookieParser());
   app.use(cors(corsOptions));
+
   // bodyParser should be above methodOverride
   app.use(express.bodyParser());
   app.use(express.methodOverride());

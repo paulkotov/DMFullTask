@@ -38,29 +38,23 @@ export default class Header extends Component {
       }).catch(alert);   
   }
 
-  // onAddHandler = () => {
-  //   fetch(' https://pokeapi.co/api/v2/pokemon/?limit=1000' ,{
-  //     mode: 'cors',
-  //     method:  'GET',
-  //     headers: {
-  //       'Content-type': 'plain/text'
-  //     }
-  //   }).then(r => r.json())
-  //     .then( (result) => {
-  //       result.map(pokemon=>{
-  //         fetch(pokemon.url, {     
-  //           mode: 'cors',
-  //           method:  'GET',
-  //           headers: {
-  //             'Content-type': 'plain/text'
-  //           } 
-  //         }).then(r => r.json()).then(res => {
-  //           this.setState({ fulldata: res });
-  //         });
-  //         this.props.addData(this.state.data); 
-  //       });
-  //     }).catch(alert);   
-  // }
+  onSavedDataHandler = () => {
+    fetch('http://paulkotov.localtest.me:5000/pokemons/showall' ,{
+      method:  'GET',
+      credentials: 'include',
+      headers: {
+        'Content-type': 'plain/text'
+      }
+    }).then(r => r.json())
+    .then( (result) => {
+      console.log(result);
+      this.setState(
+        { data: result }
+      );
+      // console.log(this.state.data);
+      this.props.loadData(result);
+    }).catch((err)=>console.log(err));  
+  }
 
 
   onDelHandler = () => {
@@ -70,7 +64,7 @@ export default class Header extends Component {
   loadData = () => (
       <span className="load" >
         <p>My data<br/></p> 
-        <button className="loaddata btn btn-default" >
+        <button className="loaddata btn btn-default" onClick={this.onSavedDataHandler}>
           Saved
         </button>
       </span>

@@ -31,9 +31,7 @@ export default function pokemons(state = initialState, action) {
 
     case DELETE_DATA:
       return { 
-        profile: {
-          ...state.profile
-        },
+        profile: state.profile,
         data: [
           { name: ' ',
             url: ' '
@@ -61,8 +59,7 @@ export default function pokemons(state = initialState, action) {
       return {
         profile: state.profile,
         data: [
-          ...action.data,
-          ...state.data
+          ...action.savedData,
         ] 
       };
 
