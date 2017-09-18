@@ -14,7 +14,8 @@ const Li = styled.li`
 
 export default class PokeItem extends Component {
   static propTypes = {
-    number: PropTypes.string,
+    number: PropTypes.number,
+    own: PropTypes.bool,
     pokemon: PropTypes.object.isRequired,
     profile: PropTypes.object.isRequired,
   };
@@ -29,7 +30,6 @@ export default class PokeItem extends Component {
 
   saveThis = () => {
     const { pokemon } = this.props;
-    console.log(JSON.stringify(pokemon));
     fetch('http://paulkotov.localtest.me:5000/pokemons/add' ,{
       method:  'POST',
       credentials: 'include',
@@ -44,17 +44,22 @@ export default class PokeItem extends Component {
   SaveButton = () => (
     <button className="save btn btn-default" onClick={this.saveThis}>Save</button>   
   )
+  
+  DelButton = () => (
+    <button className="del btn btn-default">Del</button>   
+  )
 
   showInfo = pokemon => (
     <div className="pokemon-info">
       <div>
-        ID: <strong>{'0'}</strong>{', Name: '}
+        ID: <strong>{this.props.number}</strong>{', Name: '}
         <strong>{pokemon.name}</strong> {', URL: '}
         <strong>{pokemon.url}</strong>
         <br/>
-        <a href={pokemon.url}>Full info</a>
+        <a href={pokemon.url} target="blank">Full info</a>
       </div>           
-      {isObjEmpty(this.props.profile) ? null : this.SaveButton()}    
+      {this.props.own===true ? null : this.SaveButton()}
+      {!isObjEmpty(this.props.profile)&&this.props.own===true ? this.DelButton() : null}    
     </div> 
  );
 

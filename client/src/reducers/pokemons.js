@@ -1,15 +1,7 @@
 import { ADD_DATA, DELETE_DATA, LOGIN, LOGOUT, LOADDATA } from '../constants/ActionTypes';
 
-// const initialState = [
-//   { name: '',
-//     url: ''
-//   },
-//   {
-//     profile: {}
-//   }
-// ];
-
 const initialState = {
+  own: false,
   profile: {},
   data: [
     { name: ' ',
@@ -22,15 +14,16 @@ export default function pokemons(state = initialState, action) {
   switch (action.type) {
     case ADD_DATA:
       return {
+        own: false,
         profile: state.profile,
         data: [
-          ...action.data,
-          ...state.data
+          ...action.data
         ] 
       };
 
     case DELETE_DATA:
-      return { 
+      return {
+        own: state.own, 
         profile: state.profile,
         data: [
           { name: ' ',
@@ -41,6 +34,7 @@ export default function pokemons(state = initialState, action) {
 
     case LOGIN:
       return {
+        own: state.own,
         profile : action.profile,
         data: [
           ...state.data
@@ -49,6 +43,7 @@ export default function pokemons(state = initialState, action) {
 
     case LOGOUT:
       return {
+        own: state.own,
         profile: {},
         data: [
           ...state.data
@@ -57,6 +52,7 @@ export default function pokemons(state = initialState, action) {
 
     case LOADDATA:
       return {
+        own: true,
         profile: state.profile,
         data: [
           ...action.savedData,

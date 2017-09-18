@@ -47,7 +47,6 @@ export default class Header extends Component {
       }
     }).then(r => r.json())
     .then( (result) => {
-      console.log(result);
       this.setState(
         { data: result }
       );

@@ -17,16 +17,19 @@ const Top = () => (
 
 export default class Main extends Component {
   static propTypes = {
+    own: PropTypes.bool,
+    profile: PropTypes.object.isRequired,
     pokemons: PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired
+
   }
 
   constructor(){
     super();
     this.state = { 
       filter: 'SHOW_ALL',
-      name: ''
+      name: '',
+      number: 1
 
     };
   }
@@ -77,8 +80,15 @@ export default class Main extends Component {
     }
   }
 
+  counter(){
+    this.setState({
+      number: ++this.state.number
+    });
+    return this.state.number;
+  }
+
   render() {
-    const { pokemons, profile } = this.props;
+    const { pokemons, profile, own } = this.props;
     const count = pokemons.length;
     const filtered = pokemons.filter((elem) => {
       switch(this.state.filter){     
@@ -96,8 +106,8 @@ export default class Main extends Component {
         <button className="btn btn-default" onClick={this.resetFilter}> Reset filter </button>
         <Top/>
         <ul className="pokemons-list list-group">
-          {filtered.map(pokemon =>
-            <PokeItem key={pokemon.name} number="" pokemon={pokemon} profile={profile}/>
+          {filtered.map((pokemon, index) => 
+            <PokeItem key={pokemon.name} number={index} own={own} profile={profile} pokemon={pokemon}/>
           )}
         </ul>
       </div>

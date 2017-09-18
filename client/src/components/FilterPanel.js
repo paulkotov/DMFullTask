@@ -57,9 +57,11 @@ export default class Footer extends Component {
      <footer className="footer">
         Filter by name: 
         <TextInput type="text" 
+                className="filtertext"
                 ref={input => this.FilterInput = input}
                 onChange={this.onFieldChange.bind(this, 'FilterIsEmpty')}
                 placeholder="Enter name" />{' '}
+
         <button className="Set Filter btn btn-default" 
                       onClick={this.onBtnClickHandler}> Filter </button>
         <br/>
