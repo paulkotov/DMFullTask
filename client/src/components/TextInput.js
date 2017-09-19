@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import classnames from 'classnames';
+// import classnames from 'classnames';
 
 export default class TextInput extends Component {
   static propTypes = {
@@ -7,8 +7,6 @@ export default class TextInput extends Component {
     name: PropTypes.string,
     text: PropTypes.string,
     placeholder: PropTypes.string,
-    editing: PropTypes.bool,
-    newBook: PropTypes.bool
   };
 
   constructor(props){
@@ -22,9 +20,6 @@ export default class TextInput extends Component {
     const text = e.target.value.trim();
     if (e.which === 13) {
       this.props.onSave(text);
-      if (this.props.newBook) {
-        this.setState({ text: '' });
-      }
     }
   };
 
@@ -34,11 +29,7 @@ export default class TextInput extends Component {
 
   render() {
     return (
-      <input className={
-        classnames({
-          edit: this.props.editing,
-          'newbook': this.props.newBook
-        })}
+      <input 
         type="text"
         name={this.props.name}
         placeholder={this.props.placeholder}

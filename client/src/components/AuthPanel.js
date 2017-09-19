@@ -10,8 +10,6 @@ class AuthPanel extends Component {
     };
   }
 
-
-
   RenderSocial = () => (
     <SocialContainer className="unauthorized" />
   );
@@ -26,20 +24,6 @@ class AuthPanel extends Component {
   OnLogoutHandler = () => {
     this.props.logout();
   };
-
-  // loadProfile = () => {
-  //   fetch('http://paulkotov.localtest.me:5000/auth' ,{
-  //     mode: 'no-cors',
-  //     method:  'GET',
-  //     headers: {
-  //       'Content-type' : 'plain/text'
-  //     }
-  //   }).then(r => r.json())
-  //     .then( (result) => {
-  //       //this.setState({ profile: result });
-  //       this.props.login(this.state.profile);  
-  //     }).catch(alert);  
-  // };
 
   render(){
     const { profile } = this.props;

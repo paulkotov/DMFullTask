@@ -46,7 +46,7 @@ export default class PokeItem extends Component {
   )
   
   DelButton = () => (
-    <button className="del btn btn-default">Del</button>   
+    <button className="del btn btn-default" onClick={this.delThis}>Del</button>   
   )
 
   showInfo = pokemon => (
