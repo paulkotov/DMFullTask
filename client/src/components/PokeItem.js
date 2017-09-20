@@ -37,8 +37,19 @@ export default class PokeItem extends Component {
         'Content-Type':'application/json' 
       },
       body: JSON.stringify(pokemon)
-    }).then((res)=> {alert(`${pokemon.name} ${res.body}`);
+    }).then(()=> {alert(`${pokemon.name} saved`);
     });
+  }//to API
+
+  delThis = () => {
+    const { pokemon } = this.props;
+    fetch(`http://paulkotov.localtest.me:5000/pokemons/del/${pokemon.name}` ,{
+      method:  'GET',
+      credentials: 'include',
+      headers: {  
+        'Content-Type':'application/json' 
+      }
+    }).then(()=> {alert(`${pokemon.name} deleted`); });
   }//to API
 
   SaveButton = () => (

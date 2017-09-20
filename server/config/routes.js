@@ -9,8 +9,6 @@ module.exports = function (app, passport, auth) {
 
   app.get('/login', users.login);
   app.get('/logout', users.logout);
-  // app.post('/users/session', passport.authenticate('local', {failureRedirect: '/login', failureFlash: 'Invalid email or password.'}), users.session);
-  // app.get('/users/:userId', users.show);
 
   app.get('/auth/facebook',
   passport.authenticate('facebook', {
@@ -64,6 +62,14 @@ app.get('/auth/vk/callback',
   app.post('/pokemons/add', (req, res) => {
     if (req.isAuthenticated()) {
       pokemons.addPokemon(req.body).then(() => {res.send('saved')}); 
+    }else{
+      res.send({});
+    }
+  });
+
+  app.get('/pokemons/del/:name', (req, res) => {
+    if (req.isAuthenticated()) {
+      pokemons.delPokemon(req.params.name).then(() => {res.send('deleted')}); 
     }else{
       res.send({});
     }

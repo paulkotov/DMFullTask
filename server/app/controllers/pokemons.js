@@ -22,3 +22,12 @@ exports.showPokemons = function(){
         });
     }); 
 }
+
+exports.delPokemon = function(name){
+    return new Promise ((resolve, reject) => {
+        Pokemon.findOne({ 'name' : name }).remove( (err, res) => {
+            if (err) { reject(new Error("Error")); }
+            resolve(res);
+            });
+        });  
+}
