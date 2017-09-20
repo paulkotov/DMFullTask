@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { isObjEmpty } from '../libs/api';
+import { isObjEmpty, savePokemon, delPokemon } from '../libs/api';
 
 const Li = styled.li`
     background-color: #FFFFCC;
@@ -28,36 +28,22 @@ export default class PokeItem extends Component {
     };
   }
 
-  saveThis = () => {
+  savePokemonHandler = () => {
     const { pokemon } = this.props;
-    fetch('http://paulkotov.localtest.me:5000/pokemons/add' ,{
-      method:  'POST',
-      credentials: 'include',
-      headers: {  
-        'Content-Type':'application/json' 
-      },
-      body: JSON.stringify(pokemon)
-    }).then(()=> {alert(`${pokemon.name} saved`);
-    });
-  }//to API
+    savePokemon(pokemon);
+  }
 
-  delThis = () => {
+  delPokemonHandler = () => {
     const { pokemon } = this.props;
-    fetch(`http://paulkotov.localtest.me:5000/pokemons/del/${pokemon.name}` ,{
-      method:  'GET',
-      credentials: 'include',
-      headers: {  
-        'Content-Type':'application/json' 
-      }
-    }).then(()=> {alert(`${pokemon.name} deleted`); });
-  }//to API
+    delPokemon(pokemon);
+  }
 
   SaveButton = () => (
-    <button className="save btn btn-default" onClick={this.saveThis}>Save</button>   
+    <button className="save btn btn-default" onClick={this.savePokemonHandler}>Save</button>   
   )
   
   DelButton = () => (
-    <button className="del btn btn-default" onClick={this.delThis}>Del</button>   
+    <button className="del btn btn-default" onClick={this.delPokemonHandler}>Del</button>   
   )
 
   showInfo = pokemon => (

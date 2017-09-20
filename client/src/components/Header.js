@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import './Header.css';
 //import { submittedData } from '../libs/api';
-import { isObjEmpty } from '../libs/api';
+import { isObjEmpty, LoadOuterData, LoadDBData } from '../libs/api';
 
 export default class Header extends Component {
   static propTypes = {
@@ -22,35 +22,20 @@ export default class Header extends Component {
   }
   
   onAddHandler = () => {
-    fetch(' https://pokeapi.co/api/v2/pokemon/?limit=1000' ,{
-      mode: 'cors',
-      method:  'GET',
-      headers: {
-        'Content-type': 'plain/text'
-      }
-    }).then(r => r.json())
-      .then( (result) => {
-        this.setState(
-          { count: result.count, 
-            data: result.results }
+    LoadOuterData().then( (result) => {
+      this.setState(
+        { count: result.count, 
+          data: result.results }
         );
-        this.props.addData(this.state.data);  
-      }).catch(alert);   
+      this.props.addData(this.state.data);  
+    }).catch(alert);   
   }
 
   onSavedDataHandler = () => {
-    fetch('http://paulkotov.localtest.me:5000/pokemons/showall' ,{
-      method:  'GET',
-      credentials: 'include',
-      headers: {
-        'Content-type': 'plain/text'
-      }
-    }).then(r => r.json())
-    .then( (result) => {
+    LoadDBData().then( (result) => {
       this.setState(
         { data: result }
       );
-      // console.log(this.state.data);
       this.props.loadData(result);
     }).catch((err)=>console.log(err));  
   }

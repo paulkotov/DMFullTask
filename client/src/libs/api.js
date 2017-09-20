@@ -1,35 +1,3 @@
-async function fetchData(query) {
-  const data = await fetch(` https://pokeapi.co/api/v2/${query} ` ,{
-    mode: 'cors',
-    method:  'GET',
-    headers: {
-      'Content-type': 'plain/text'
-    }
-  }).then(r => r.json())
-  .then((result)=> {return result;})
-  .catch(alert);  
-  return data;
-}
-
-async function socialAuth(social) {
-  const auth = await fetch('paulkotov.localtest.me:5000/auth/' + social, {
-    method: 'GET',
-    headers: {
-      'Content-type': 'plain/text'
-    }
-  })
-    .then(function(r) {
-      return r.json();
-    })
-    .then((result) => {
-      return result;
-    })
-    .catch(function() {
-      return {};
-    });
-  return auth;
-}
-
 function getProfile(){
   return fetch('http://paulkotov.localtest.me:5000/auth', {
     //mode: 'no-cors',
@@ -52,4 +20,46 @@ function isObjEmpty(obj){
   return true;
 } 
 
-export { fetchData, isObjEmpty, socialAuth, getProfile };
+function savePokemon(pokemon) {
+  fetch('http://paulkotov.localtest.me:5000/pokemons/add' ,{
+    method:  'POST',
+    credentials: 'include',
+    headers: {  
+      'Content-Type':'application/json' 
+    },
+    body: JSON.stringify(pokemon)
+  }).then(()=> {alert(`${pokemon.name} saved`);
+  });
+}//to API
+
+function delPokemon(pokemon){
+  fetch(`http://paulkotov.localtest.me:5000/pokemons/del/${pokemon.name}` ,{
+    method:  'GET',
+    credentials: 'include',
+    headers: {  
+      'Content-Type':'application/json' 
+    }
+  }).then(()=> {alert(`${pokemon.name} deleted`); });
+}//to API
+
+function LoadOuterData(){
+  return fetch('https://pokeapi.co/api/v2/pokemon/?limit=1000' ,{
+    mode: 'cors',
+    method:  'GET',
+    headers: {
+      'Content-type': 'plain/text'
+    }
+  }).then(r => r.json()); 
+}
+
+function LoadDBData(){
+  return fetch('http://paulkotov.localtest.me:5000/pokemons/showall', {
+    method:  'GET',
+    credentials: 'include',
+    headers: {
+      'Content-type': 'plain/text'
+    }
+  }).then(r => r.json());
+}
+
+export { isObjEmpty, getProfile, LoadOuterData, LoadDBData, savePokemon, delPokemon };
