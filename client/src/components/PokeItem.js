@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import classNames from 'classNames';
 import { isObjEmpty, savePokemon, delPokemon } from '../libs/api';
 
 const Li = styled.li`
@@ -24,7 +25,8 @@ export default class PokeItem extends Component {
     super();  
     this.state = {
       name: ' ',
-      url: ' '
+      url: ' ',
+      deleted: false
     };
   }
 
@@ -33,9 +35,12 @@ export default class PokeItem extends Component {
     savePokemon(pokemon);
   }
 
-  delPokemonHandler = () => {
+  delPokemonHandler = async () => {
     const { pokemon } = this.props;
-    delPokemon(pokemon);
+    await delPokemon(pokemon);
+    this.setState({
+      deleted: true
+    });
   }
 
   SaveButton = () => (
@@ -43,7 +48,13 @@ export default class PokeItem extends Component {
   )
   
   DelButton = () => (
-    <button className="del btn btn-default" onClick={this.delPokemonHandler}>Del</button>   
+    <button className={classNames({
+      'del' : true,
+      'btn': true,
+      'btn-default': true,
+      'disabled': this.state.deleted }
+      )} 
+      onClick={this.delPokemonHandler}>Del</button>   
   )
 
   showInfo = pokemon => (

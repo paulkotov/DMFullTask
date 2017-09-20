@@ -30,7 +30,7 @@ function savePokemon(pokemon) {
     body: JSON.stringify(pokemon)
   }).then(()=> {alert(`${pokemon.name} saved`);
   });
-}//to API
+}
 
 function delPokemon(pokemon){
   fetch(`http://paulkotov.localtest.me:5000/pokemons/del/${pokemon.name}` ,{
@@ -40,7 +40,7 @@ function delPokemon(pokemon){
       'Content-Type':'application/json' 
     }
   }).then(()=> {alert(`${pokemon.name} deleted`); });
-}//to API
+}
 
 function LoadOuterData(){
   return fetch('https://pokeapi.co/api/v2/pokemon/?limit=1000' ,{
